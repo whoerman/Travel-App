@@ -1,0 +1,5 @@
+/*this will be the main file for js
+initially it will be for button to listen for data
+establishing variables
+also to process the data back and forth to local storage
+*/
