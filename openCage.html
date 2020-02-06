@@ -1,0 +1,119 @@
+<!-- This will be the quickie html to set up just the input elements
+for testing the javascript. It will only be used until the materialize
+html nicely formatted page is done.
+The input elements will be the same as will eventually be on the good html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Dashboard</title>
+    <!-- Bootstrap CSS CDN  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- Font Awesome CSS Icons (For cool glyphicons) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+
+</head>
+
+<body>
+
+    <!-- Main Bootstrap Search -->
+    <div class="container">
+
+        <!-- Jumbotron for Title -->
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <strong>
+                    <i class="header"></i> Weather Dashboard</strong>
+            </h1>
+        </div>
+
+        <!-- Row for Searching dark sky api -->
+        <div class="row">
+            <div class="col-sm-4">
+                <br>
+                <!-- First card is for handling the search parameters -->
+                <div class="card">
+                    <div class="card-header">
+                        <strong>
+                            <i class="fa fa-list-alt"></i> Search by name of city</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="search">Search City:</label>
+                            <input type="text" class="form-control" id="search-term">
+                        </div>
+
+                        <!-- Here we have our final submit button -->
+                        <button type="submit" class="btn btn-default" id="run-search">
+                            <i class="fa fa-search"></i> Search</button>
+                        <button class="btn btn-default" id="clear-all">
+                            <i class="fa fa-trash"></i> Clear Results</button>
+                        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- This row will handle all of the retrieved articles -->
+        <div class="row">
+            <div class="col-sm-9">
+                <br>
+
+                <!-- This card will initially be made up of a card and wells for each of the articles retrieved -->
+                <div class="card hide">
+
+                    <!-- card Heading for the retrieved articles box -->
+                    <div class="card-header hide">
+                        <strong>
+                            <i class="fa fa-table"></i> Todays Weather</strong>
+                    </div>
+
+                    <!-- This main card will hold each of the resulting articles -->
+                    <div class="card-body" id="curWeather">
+                        <div id="icon"><img id="wicon" src="" alt="Weather icon"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Region -->
+        <div class="row bottom">
+            <div class="col-sm-12">
+
+                <!-- Line Break followed by closing -->
+                <hr>
+                <h5 class="text-center">
+                    <small>Made with lots and lots of
+                        <i class="fa fa-heart"></i>
+                    </small>
+                </h5>
+
+            </div>
+        </div>
+
+    </div>
+    <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px"
+        href="https://unsplash.com/@martinadams?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
+        target="_blank" rel="noopener noreferrer"
+        title="Download free do whatever you want high-resolution photos from Martin Adams"><span
+            style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg"
+                style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white"
+                viewBox="0 0 32 32">
+                <title>unsplash-logo</title>
+                <path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path>
+            </svg></span><span style="display:inline-block;padding:2px 3px">Martin Adams</span></a>
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Code to the JavaScript File -->
+    <script src="weatherjs.js"></script>
+
+</body>
+
+</html>
