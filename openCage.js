@@ -3,12 +3,12 @@
 apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
 
 
-function buildQuery(city) {
+function buildQuery(cityState) {
 
 
 
-    
-    let queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + city + apiKey + "&language=en&pretty=1";
+
+    let queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + cityState + apiKey + "&language=en&pretty=1";
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -16,12 +16,12 @@ function buildQuery(city) {
 
         apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
         console.log(response);
-        
+
 
         let getWeb = queryURL + apiKey;
 
-        console.log(city);
-        
+        console.log(cityState);
+
         console.log(response.results["0"].geometry);
 
         let latCode = (response.results["0"].geometry.lat);
@@ -29,7 +29,7 @@ function buildQuery(city) {
 
         let lngCode = (response.results["0"].geometry.lng);
         console.log(lngCode);
-        
+
 
 
 
@@ -43,7 +43,15 @@ function buildQuery(city) {
 
 $("#run-search").on("click", function () {
     event.preventDefault();
-    let city = $("#search-term").val().trim();
-    buildQuery(city);
+    //let city = $("#search-term").val().trim();
+    let searchCity = $("#input-text").val().trim();
+    console.log(searchCity);
+
+    let searchState = $(".selected").text();
+    console.log(searchState);
+
+    let cityState = (searchCity).text() + "," + (searchState).text();
+
+    buildQuery(cityState);
 });
 
