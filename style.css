@@ -1,1 +1,21 @@
 /* main css file for the site */
+
+ul.recent {
+    display: none;
+}
+
+body, html {
+    height: 100%;
+    display: grid;
+  }
+
+body {
+    background-color: grey;
+}
+
+body > div.front.container {
+    margin: auto;
+    background-color: white;
+    padding: 1em;
+    border-radius: .5em;
+  }
