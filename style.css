@@ -4,13 +4,25 @@ ul.recent {
     display: none;
 }
 
+body > nav.nav-wrapper {
+    background-color: grey;
+}
+
 body, html {
     height: 100%;
     display: grid;
   }
 
+.weatherBtn {
+    margin-right: 10%;
+}
+
+.eventBtn {
+    margin-left: 10%;
+}
+
 body {
-    background-color: grey;
+    background-color: lightgrey;
 }
 
 body > div.front.container {
