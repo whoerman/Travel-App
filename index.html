@@ -1,1 +1,80 @@
-<!-- this is the main html of the site-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="front container valign-wrapper center-align">
+        <div class="row">
+            <h1>Travel App</h1>
+            <p></p>
+            <form>
+                <div class="input-field col s3">
+                    <select class="month">
+                        <option value="" disabled selected>MM</option>
+                    </select>
+                    <label>Depart:</label>
+                </div>
+                <div class="input-field col s3">
+                    <select class="day">
+                        <option value="" disabled selected>DD</option>
+                    </select>
+                </div>
+                <div class="input-field col s5">
+                    <select class="year">
+                        <option value="" disabled selected>YYYY</option>
+                    </select>
+                </div>
+                <div class="input-field col s3">
+                    <select class="month">
+                        <option value="" disabled selected>MM</option>
+                    </select>
+                    <label>Return:</label>
+                </div>
+                <div class="input-field col s3">
+                    <select class="day">
+                        <option value="" disabled selected>DD</option>
+                    </select>
+                </div>
+                <div class="input-field col s5">
+                    <select class="year">
+                        <option value="" disabled selected>YYYY</option>
+                    </select>
+                </div>
+                <div class="input-field col s8">
+                    <input class="location" placeholder="Placeholder" id="input-text" type="text" class="validate">
+                    <label for="finout_text">Destination:</label>
+                </div>
+                <div class="input-field col s4">
+                    <select class="stateSelect">
+                        <option value="" disabled selected>State</option>
+                    </select>
+                </div>
+                <a class="waves-effect waves-light btn search">Search</a>
+                <ul class= "recent">Recently Searched</ul>
+            </form>
+        </div>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="array.js" async defer></script>
+    <script src="main.js" async defer></script>
+</body>
+
+</html>
