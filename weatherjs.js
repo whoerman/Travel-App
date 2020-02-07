@@ -44,6 +44,9 @@ function weatherPlanner() {
     $headericon = $("<i>")
     $headericon.addClass("fas fa-suitcase");
     $header.append($headericon);
+
+    $hrline= ("<hr>");
+    $plannerDiv.append($hrline);
     //temperature discussion
     $tempText = $("<h5>");
     $tempText.append(` The temps will be between ${coldtemp} and ${hottemp}, with an average of ${tempAverage}.`);
@@ -118,19 +121,50 @@ function weatherPlanner() {
     $forecastText = $("<h5>");
     let currentWeather = responseFutureSample.list[i].weather[0].main;
     let gotTime = responseFutureSample.list[i].dt;
-    var time = moment.unix(gotTime).format("MM-DD=YYYY HH:mm");
+    var time = moment.unix(gotTime).format("MMM-DD HH:mm");
     let futureTemp = responseFutureSample.list[i].main.temp;
     futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
     futureTempF = parseInt(futureTemp);
-    $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°`);
+    $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°  `);
     $ellicon = $("<i>")
     $ellicon.addClass("fas fa-ellipsis-h");
     $forecastText.prepend($ellicon);
+    addIcon3Hour();
     $plannerDiv.append($forecastText);
     };
 
     //putting the panner on the page
     $(".weather").append($plannerDiv);
+}
+
+//adding icons to 3 hour forcasts
+function addIcon3Hour() {
+    let currentWeather4Icon = responseFutureSample.list[i].weather[0].main;
+    if (currentWeather4Icon == "Rain") {
+        $threehricon = $("<i>")
+        $threehricon.addClass("fas fa-cloud-rain");
+        $forecastText.append($threehricon);
+    };
+    if (currentWeather4Icon == "Snow") {
+        $threehricon = $("<i>")
+        $threehricon.addClass("far fa-snowflake");
+        $forecastText.append($threehricon);
+    };
+    if (currentWeather4Icon == "Clouds") {
+        $threehricon = $("<i>")
+        $threehricon.addClass("fas fa-cloud");
+        $forecastText.append($threehricon);
+    };
+    if (currentWeather4Icon == "Clear") {
+        $threehricon = $("<i>")
+        $threehricon.addClass("fas fa-sun");
+        $forecastText.append($threehricon);
+    };
+    if (currentWeather4Icon == "Clear") {
+        $threehricon = $("<i>")
+        $threehricon.addClass("fas fa-moon");
+        $forecastText.append($threehricon);
+    };
 }
 
 
@@ -232,8 +266,3 @@ function futureWeather() {
         });
 };
 
-
-$(".search").on("click", function () {
-    todayWeather();
-    futureWeather();
-});
