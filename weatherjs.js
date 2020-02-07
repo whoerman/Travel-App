@@ -42,7 +42,7 @@ function weatherPlanner() {
     $subheader.text(`Plan your packing based on the weather! For the next 5 days in ${cityName}, here are the weather details:`);
     $plannerDiv.append($subheader);
     $headericon = $("<i>")
-    $headericon.addClass("fas fa-luggage-cart");
+    $headericon.addClass("fas fa-suitcase");
     $header.append($headericon);
     //temperature discussion
     $tempText = $("<h5>");
@@ -115,7 +115,7 @@ function weatherPlanner() {
     $plannerDiv.append($daysText);
     let n = 0;
     for (i=0; i < 39; i++) {
-    $forecastText = $("<h6>");
+    $forecastText = $("<h5>");
     let currentWeather = responseFutureSample.list[i].weather[0].main;
     let gotTime = responseFutureSample.list[i].dt;
     var time = moment.unix(gotTime).format("MM-DD=YYYY HH:mm");
