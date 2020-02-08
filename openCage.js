@@ -1,7 +1,7 @@
-//this will take the data from indexTest and geocode it//takes goecoded data and runs it though AJAX for weather
-//whole page should be wrapped in a function
+$(document).ready(function() {
 apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
 
+let recentCities = [];
 
 function buildQuery(cityState) {
 
@@ -15,12 +15,12 @@ function buildQuery(cityState) {
     }).then(function (responseCoords) {
 
         apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
-        
+
 
 
         let getWeb = queryURL + apiKey;
 
-       
+
 
         console.log(responseCoords.results["0"].geometry);
 
@@ -29,29 +29,33 @@ function buildQuery(cityState) {
 
         let lngCode = (responseCoords.results["0"].geometry.lng);
         console.log(lngCode);
-
-
-
-
-
-
         return getWeb;
     });
 }
 
+let destinationSearch = function () {
+    $(".search").on("click", function () {
+        if (($("li.selected").text()) === "Select State") {
+            alert("please select a valid state");
+            return;
+        }
+        if (!$("#input_text").val()) {
+            alert("please enter a valid city");
+            return;
+        }
+        let city = $("#input_text").val()
+        let state = $("li.selected").text()
+        if (!recentCities) {
+            recentCities = [(`${city}, ${state}`)]
+        } else if (recentCities.length >= 0) {
+            recentCities.unshift(`${city}, ${state}`)
+        }
+        localStorage.setItem("cityArray", JSON.stringify(recentCities))
+       
+        $("#input_text").val(" ")
+    })
+}
+destinationSearch()
+buildQuery()
 
-
-$("#run-search").on("click", function () {
-    event.preventDefault();
-    //let city = $("#search-term").val().trim();
-    let searchCity = $("#input-text").val().trim();
-    console.log(searchCity);
-
-    let searchState = $(".selected").text();
-    console.log(searchState);
-
-    let cityState = (searchCity).text() + "," + (searchState).text();
-
-    buildQuery(cityState);
-});
-
+})
