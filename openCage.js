@@ -12,22 +12,22 @@ function buildQuery(cityState) {
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function (response) {
+    }).then(function (responseCoords) {
 
         apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
-        console.log(response);
+        
 
 
         let getWeb = queryURL + apiKey;
 
-        console.log(cityState);
+       
 
-        console.log(response.results["0"].geometry);
+        console.log(responseCoords.results["0"].geometry);
 
-        let latCode = (response.results["0"].geometry.lat);
+        let latCode = (responseCoords.results["0"].geometry.lat);
         console.log(latCode);
 
-        let lngCode = (response.results["0"].geometry.lng);
+        let lngCode = (responseCoords.results["0"].geometry.lng);
         console.log(lngCode);
 
 
