@@ -15,6 +15,7 @@ let hottemp = null;
 let tempAverage = null;
 let windMax = null;
 let maxWindSpeed = 0;
+let hour = null;
 
 
 let latitude = "43.072";
@@ -30,107 +31,136 @@ function processWeatherData() {
 processWeatherData();
 
 function weatherPlanner() {
+    //emptying the weather div and making the global div to put in there
     $(".weather").empty();
     $plannerDiv = $("<div>");
+
+    //making the header and subheader and adding them to planner
     $header = $("<h4>");
-    $header.text(" Your Short Break Weather Packing Planner! ")
+    $header.addClass("header");
+    $header.text(` Your Short Break Weather Packing Planner for your trip to ${cityName}! `)
     $plannerDiv.append($header);
-    $headericon = $("<i>")
+    $headericon = $("<i>");
     $headericon.addClass("fas fa-suitcase-rolling");
     $header.prepend($headericon);
     $subheader = $("<h5>");
+    $subheader.addClass("subheader");
     $subheader.text(`Plan your packing based on the weather! For the next 5 days in ${cityName}, here are the weather details:`);
     $plannerDiv.append($subheader);
-    $headericon = $("<i>")
+    $headericon = $("<i>");
     $headericon.addClass("fas fa-suitcase");
     $header.append($headericon);
 
-    $hrline= ("<hr>");
+    //adding a horizontal line
+    $hrline = ("<hr>");
     $plannerDiv.append($hrline);
-    //temperature discussion
+
+    //decision tree for temp, formating the temp and adding it to the planner
     $tempText = $("<h5>");
+    $tempText.addClass("temp");
     $tempText.append(` The temps will be between ${coldtemp} and ${hottemp}, with an average of ${tempAverage}.`);
-    if (tempAverage < 40) {
-        $tempText.prepend(` It is going to be cold in ${cityName}! Make sure you bring a layers plus a hat and gloves. `);
-    };
-    if (tempAverage > 70) {
-        $tempText.prepend(" Awesome! Beach weather!");
+    if (tempAverage < 32) {
+        $tempText.prepend(` The average temp will be below freezing in ${cityName}! Make sure you bring a warm coat with layers plus a hat and gloves. `);
+    } else if (tempAverage < 50) {
+        $.prepend(` The temperature with be cool but nice in ${cityName}! Definitely bring a jacket or warm sweater and layers. `);
+    } else if (tempAverage < 70) {
+        $.prepend(` The temperature with be cool but nice in ${cityName}! You may need a sweather or light jacket when you are wandering. `);
+    } else {
+        $tempText.prepend(` Awesome! Beach weather! The weather is going to hot in ${cityName}. Bring shorts and t-shirts/light shirts (and maybe a bathing suit!).`);
     };
     $tempicon = $("<i>")
     $tempicon.addClass("fas fa-temperature-low");
     $tempText.prepend($tempicon);
     $plannerDiv.append($tempText);
 
-    //wind discussion
+    //warning about wind if necessary
     $windText = $("<h5>");
-    if (maxWindSpeed < 15) {
-        $windText.text(` The wind should be fairly calm. `)
-    };
-    if (maxWindSpeed > 15) {
-        $windText.text(` It will be occasionally windy. `)
+    $windText.addClass("wind");
+    if (maxWindSpeed < 10) {
+        $windText.text(` No worries. The wind should be fairly calm. `);
+    } else if (maxWindSpeed < 20) {
+        $windText.text(` A little breezy at times, might need a layer. Wind should not be unpleasant. `);
+    } else {
+        $windText.text(` It will occasionally get very windy! Plan accordingly. Bring a kite! `);
     };
     $windText.append(` The maximum wind will be ${maxWindSpeed} mph.`);
-    $windicon = $("<i>")
+    $windicon = $("<i>");
     $windicon.addClass("fas fa-wind");
     $windText.prepend($windicon);
     $plannerDiv.append($windText);
 
     //clear skies discussion
     $clearText = $("<h5>");
+    $clearText.addClass("sun");
     $clearText.text(` Sun report: It will be clear ${clearPercent} percent of the time,`);
     let intClearPercent = parseInt(clearPercent);
-    if (intClearPercent = 0) {
-        $clearText.text(`Sadly, there will be no clear skies the entire time.`)
+    if (intClearPercent == 0) {
+        $clearText.text(`Sadly, there will be no clear skies the entire time. No need for sunscreen.`)
+    } else {
+        if (tempAverage < 32) {
+            $clearText.append(` but really cold, so only bring sunscreen if you are going skiing.`)
+        } else {
+            $clearText.append(`don't forget to bring sunscreen!.`)
+        };
     };
-    if (tempAverage < 40) {
-        $clearText.append(` but cold, so only bring sunscreen if you are going skiing.`)
-    };
-    if (tempAverage > 40) {
-        $clearText.append(`don't forget to bring sunscreen!.`)
-    };
-
-    $clearicon = $("<i>")
+    $clearicon = $("<i>");
     $clearicon.addClass("fas fa-cloud-sun");
     $clearText.prepend($clearicon);
     $plannerDiv.append($clearText);
 
     //precipitation discussion
     $precipText = $("<h5>");
+    $precipText.addClass("precip");
     $precipText.text(` Precipition: `);
-    $precipText.append(`It will rain ${rainPercent}%  of the time you are in ${cityName}, so bring a raincoat or umbrella. `);
-    $precipText.append(`It will snow ${snowPercent} percent of the time, so bring your winter gear! `);
+    if (rainPercent == 0) {
+        if (snowPercent == 0) {
+            $precipText.append(`Wonderful! there is no rain or snow in the forecast for ${cityName}, so enjoy and get outside! `)
+        } else {
+            $precipText.append(`There is snow in the forecast. It will snow ${snowPercent}% of the time you are in ${cityName}, so bring your winter gear and make a snowman!`)
+        }
+    } else if (rainPercent < 50) {
+        $precipText.append(`Unfortunately, it is going to rain ${rainPercent}% of the time you are in ${cityName}. Depending on your style, you will need a raincoat or umbrella. `)
+        if (snowPercent > 0) {
+            $precipText.append(`Sadly, you have a double whammy! It is also going to snow ${snowPercent}% of the time you are there, so bring boots, too!`)
+        }
+    } else {
+        $precipText.append(`Bummer! it is going to rain most of the time you are in ${cityname}! It will rain ${rainPercent}% of the time, so bring an umbrella or raincoat, depending on your style. `)
+    };
     $rainicon = $("<i>")
     $rainicon.addClass("fas fa-cloud-showers-heavy");
     $precipText.prepend($rainicon);
     $plannerDiv.append($precipText);
 
-    $linebreak= ("<br>");
+    $linebreak = ("<br>");
     $plannerDiv.append($linebreak);
-    $hrline= ("<hr>");
+    $hrline = ("<hr>");
     $plannerDiv.append($hrline);
 
     //adding 5 day planner
     $daysText = $("<h5>");
+    $daysText.addClass("threehour");
     $daysText.text(` On a short break, you need to be flexible, and know the exact conditions. Here are the detailed Forecasts (every 3 hours):`);
     $dateicon = $("<i>")
     $dateicon.addClass("fas fa-calendar-day");
     $daysText.prepend($dateicon);
     $plannerDiv.append($daysText);
     let n = 0;
-    for (i=0; i < 39; i++) {
-    $forecastText = $("<h5>");
-    let currentWeather = responseFutureSample.list[i].weather[0].main;
-    let gotTime = responseFutureSample.list[i].dt;
-    var time = moment.unix(gotTime).format("MMM-DD HH:mm");
-    let futureTemp = responseFutureSample.list[i].main.temp;
-    futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
-    futureTempF = parseInt(futureTemp);
-    $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°  `);
-    $ellicon = $("<i>")
-    $ellicon.addClass("fas fa-ellipsis-h");
-    $forecastText.prepend($ellicon);
-    addIcon3Hour();
-    $plannerDiv.append($forecastText);
+    for (i = 0; i < 39; i++) {
+        $forecastText = $("<h5>");
+        $forecastText.addClass("threehoureach");
+        let currentWeather = responseFutureSample.list[i].weather[0].main;
+        let gotTime = responseFutureSample.list[i].dt;
+        var time = moment.unix(gotTime).format("MMM-DD HH:mm");
+        let hour = moment.unix(gotTime).format("HH");
+        let futureTemp = responseFutureSample.list[i].main.temp;
+        futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
+        futureTempF = parseInt(futureTemp);
+        $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°  `);
+        $ellicon = $("<i>")
+        $ellicon.addClass("fas fa-ellipsis-h");
+        $forecastText.prepend($ellicon);
+        addIcon3Hour();
+        $plannerDiv.append($forecastText);
     };
 
     //putting the panner on the page
@@ -155,6 +185,7 @@ function addIcon3Hour() {
         $threehricon.addClass("fas fa-cloud");
         $forecastText.append($threehricon);
     };
+
     if (currentWeather4Icon == "Clear") {
         $threehricon = $("<i>")
         $threehricon.addClass("fas fa-sun");
@@ -236,7 +267,7 @@ function checkTemps() {
 
 //get the current weather forecast information
 function todayWeather() {
-    let queryURL = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
+    let queryURL = `http://api.openweathermap.org/data/2.5/weather?lat=${latCode}&lon=${longitude}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
 
     $.ajax({
             url: queryURL,
@@ -265,4 +296,3 @@ function futureWeather() {
 
         });
 };
-
