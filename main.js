@@ -1,8 +1,3 @@
-/*this will be the main file for js
-initially it will be for button to listen for data
-establishing variables
-also to process the data back and forth to local storage
-*/
 
 $(document).ready(function () {
 
@@ -67,11 +62,7 @@ $(document).ready(function () {
         let day = $("select.day").val();
         let year = $("select.year").val();
         let state = $("select.stateSelect").val();
-        console.log(month)
-        console.log(day)
-        console.log(year)
-        console.log(state)
-        let city = $("#input_text").val()
+        let city = $("#input_text").val().trim()
         if (!recentCities) {
             recentCities = [(`${city}, ${state}`)]
         } else if (recentCities.length >= 0) {
