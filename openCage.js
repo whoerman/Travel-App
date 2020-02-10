@@ -1,49 +1,35 @@
 //this will take the data from indexTest and geocode it//takes goecoded data and runs it though AJAX for weather
 //whole page should be wrapped in a function
 apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
+let latCode;
+let lngCode;
 
 
-function buildQuery(city) {
+function getCoords(arr) {
 
+    if (!arr) {
+        return;
+    }
 
+    let str = arr[0]
+    let split = str.split(",")
+    let myCity = split[0].split(" ").join("%20")
+    let state = split[1].replace(" ", "")
+    let searchID = `${myCity}%2C%20${state}`
 
-    
-    let queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + city + apiKey + "&language=en&pretty=1";
+    const queryURL = "https://api.opencagedata.com/geocode/v1/json?q=" + searchID + apiKey + "&language=en&pretty=1"
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
 
-        apiKey = "&key=16fa0f1560a34557aeefa93881a42dfb";
-        console.log(response);
-        
+        latCode = (response.results[0].geometry.lat);
+        lngCode = (response.results[0].geometry.lng);
 
-        let getWeb = queryURL + apiKey;
-
-        console.log(city);
-        
-        console.log(response.results["0"].geometry);
-
-        let latCode = (response.results["0"].geometry.lat);
-        console.log(latCode);
-
-        let lngCode = (response.results["0"].geometry.lng);
-        console.log(lngCode);
-        
-
-
-
-
-
-        return getWeb;
     });
 }
 
 
 
-$("#run-search").on("click", function () {
-    event.preventDefault();
-    let city = $("#search-term").val().trim();
-    buildQuery(city);
-});
+
 
