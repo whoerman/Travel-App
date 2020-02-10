@@ -39,7 +39,7 @@ h1.frontTitle {
 }
 
 body {
-    background-color: lightgrey;
+    background-color: #E8F2E9;
 }
 
 div.front.container {
@@ -56,6 +56,10 @@ div.container {
     margin-bottom: 4em; 
     text-align: justify;
     text-justify: inter-word;
+}
+
+.weatherHourly {
+    background-color: #F4F3F5;
 }
 
 i {
