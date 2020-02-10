@@ -1,24 +1,6 @@
 
 $(document).ready(function () {
 
-<<<<<<< HEAD
-
-    /*var next_id = $(".mtr-select");
-    $.each(json, function(key, value) {
-        $(next_id).append($("<option></option>").attr("value", value.id).text(value.name));
-    });
-    $(next_id).material_select();*/
-
-
-
-
-    let stateOptions = function () {
-        
-        states.forEach(function (item, value) {
-            $('.stateSelect').formSelect();
-            let newOpt = $("<option>");
-            newOpt.attr("value", value);
-=======
     recentCities = [];
 
     let getCities = function () {
@@ -34,7 +16,6 @@ $(document).ready(function () {
         states.forEach(function (item) {
             let newOpt = $("<option>");
             newOpt.attr("value", item)
->>>>>>> 01f1225cf43534400c72daf7cf7466a30f29fdef
             newOpt.text(item);
             $(".stateSelect").append(newOpt);
 
@@ -80,10 +61,6 @@ $(document).ready(function () {
 
     $('select').formSelect();
 
-<<<<<<< HEAD
-    $(".search").on("click", function () {
-        //window.location.replace("location.html")
-=======
 
     $(".search").on("click", function () {
         if (($("select.month").val() === null) || ($("select.day").val() === null) || ($("select.year").val() === null) || ($("select.stateSelect").val() === null) || (!$("#input_text").val())) {
@@ -117,7 +94,6 @@ $(document).ready(function () {
 
     $(".eventBtn").on("click", function () {
         console.log("I work!")
->>>>>>> 01f1225cf43534400c72daf7cf7466a30f29fdef
     })
 
 
