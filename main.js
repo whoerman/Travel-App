@@ -70,7 +70,9 @@ $(document).ready(function () {
         }
         localStorage.setItem("cityArray", JSON.stringify(recentCities))
         $("#input_text").val(" ")
-        // window.location.replace("location.html")
+        window.location.replace("location.html")
+        todayWeather();
+        futureWeather();
     })
 
 
