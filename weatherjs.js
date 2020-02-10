@@ -33,21 +33,18 @@ processWeatherData();
 function weatherPlanner() {
     //emptying the weather div and making the global div to put in there
     $(".weather").empty();
+    $weatherSummary = $(".weatherSummary")
     $plannerDiv = $("<div>");
-
-    //making the header and subheader and adding them to planner
-    $header = $("<h4>");
-    $header.addClass("header");
-    $header.text(` Your Short Break Weather Packing Planner for your trip to ${cityName}! `)
-    $plannerDiv.append($header);
-    $headericon = $("<i>");
+    $header = $(".locationTitle");
+    $header.text("Your Five Day Weather Packing Guide!")
+    // $plannerDiv.append($header);
+    $headericon = $("<i>")
     $headericon.addClass("fas fa-suitcase-rolling");
     $header.prepend($headericon);
-    $subheader = $("<h5>");
-    $subheader.addClass("subheader");
-    $subheader.text(`Plan your packing based on the weather! For the next 5 days in ${cityName}, here are the weather details:`);
-    $plannerDiv.append($subheader);
-    $headericon = $("<i>");
+    // $subheader = $("<h5>");
+    // $(".pageDescript").text(`Plan your packing based on the weather! For the next 5 days in ${cityName}, here are the weather details:`);
+    // // $plannerDiv.append($subheader);
+    $headericon = $("<i>")
     $headericon.addClass("fas fa-suitcase");
     $header.append($headericon);
 
@@ -71,7 +68,7 @@ function weatherPlanner() {
     $tempicon = $("<i>")
     $tempicon.addClass("fas fa-temperature-low");
     $tempText.prepend($tempicon);
-    $plannerDiv.append($tempText);
+    $weatherSummary.append($tempText);
 
     //warning about wind if necessary
     $windText = $("<h5>");
@@ -87,7 +84,7 @@ function weatherPlanner() {
     $windicon = $("<i>");
     $windicon.addClass("fas fa-wind");
     $windText.prepend($windicon);
-    $plannerDiv.append($windText);
+    $weatherSummary.append($windText);
 
     //clear skies discussion
     $clearText = $("<h5>");
@@ -106,7 +103,7 @@ function weatherPlanner() {
     $clearicon = $("<i>");
     $clearicon.addClass("fas fa-cloud-sun");
     $clearText.prepend($clearicon);
-    $plannerDiv.append($clearText);
+    $weatherSummary.append($clearText);
 
     //precipitation discussion
     $precipText = $("<h5>");
@@ -129,42 +126,41 @@ function weatherPlanner() {
     $rainicon = $("<i>")
     $rainicon.addClass("fas fa-cloud-showers-heavy");
     $precipText.prepend($rainicon);
-    $plannerDiv.append($precipText);
+    $weatherSummary.append($precipText);
 
-    $linebreak = ("<br>");
-    $plannerDiv.append($linebreak);
-    $hrline = ("<hr>");
-    $plannerDiv.append($hrline);
+    // $linebreak= ("<br>");
+    // $plannerDiv.append($linebreak);
+    // $hrline= ("<hr>");
+    // $plannerDiv.append($hrline);
 
     //adding 5 day planner
+    $weatherHourly = $(".weatherHourly")
     $daysText = $("<h5>");
     $daysText.addClass("threehour");
     $daysText.text(` On a short break, you need to be flexible, and know the exact conditions. Here are the detailed Forecasts (every 3 hours):`);
+    $daysText.text(`Hourly Forecast:`);
     $dateicon = $("<i>")
     $dateicon.addClass("fas fa-calendar-day");
     $daysText.prepend($dateicon);
-    $plannerDiv.append($daysText);
+    $weatherHourly.append($daysText);
     let n = 0;
-    for (i = 0; i < 39; i++) {
-        $forecastText = $("<h5>");
-        $forecastText.addClass("threehoureach");
-        let currentWeather = responseFutureSample.list[i].weather[0].main;
-        let gotTime = responseFutureSample.list[i].dt;
-        var time = moment.unix(gotTime).format("MMM-DD HH:mm");
-        let hour = moment.unix(gotTime).format("HH");
-        let futureTemp = responseFutureSample.list[i].main.temp;
-        futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
-        futureTempF = parseInt(futureTemp);
-        $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°  `);
-        $ellicon = $("<i>")
-        $ellicon.addClass("fas fa-ellipsis-h");
-        $forecastText.prepend($ellicon);
-        addIcon3Hour();
-        $plannerDiv.append($forecastText);
+    for (i=0; i < 39; i++) {
+    $forecastText = $("<h5>");
+    let currentWeather = responseFutureSample.list[i].weather[0].main;
+    let gotTime = responseFutureSample.list[i].dt;
+    var time = moment.unix(gotTime).format("MM-DD=YYYY HH:mm");
+    let futureTemp = responseFutureSample.list[i].main.temp;
+    futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
+    futureTempF = parseInt(futureTemp);
+    $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°`);
+    $ellicon = $("<i>")
+    $ellicon.addClass("fas fa-ellipsis-h");
+    $forecastText.prepend($ellicon);
+    $weatherHourly.append($forecastText);
     };
 
     //putting the panner on the page
-    $(".weather").append($plannerDiv);
+    // $(".weather").append($plannerDiv);
 }
 
 //adding icons to 3 hour forcasts
@@ -296,3 +292,9 @@ function futureWeather() {
 
         });
 };
+
+
+// $(".search").on("click", function () {
+//     todayWeather();
+//     futureWeather();
+// });
