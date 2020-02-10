@@ -6,12 +6,33 @@ also to process the data back and forth to local storage
 
 $(document).ready(function () {
 
+
+    /*var next_id = $(".mtr-select");
+    $.each(json, function(key, value) {
+        $(next_id).append($("<option></option>").attr("value", value.id).text(value.name));
+    });
+    $(next_id).material_select();*/
+
+
+
+
     let stateOptions = function () {
-        states.forEach(function (item, index) {
+        
+        states.forEach(function (item, value) {
+            $('.stateSelect').formSelect();
             let newOpt = $("<option>");
-            newOpt.attr("value", index);
+            newOpt.attr("value", value);
             newOpt.text(item);
             $(".stateSelect").append(newOpt);
+
+            var instance = M.FormSelect.getInstance($('.stateSelect'));
+            var _d = instance.getSelectedValues();
+            console.log(_d);
+
+
+
+
+
         });
     }
     stateOptions()
@@ -46,8 +67,8 @@ $(document).ready(function () {
 
     $('select').formSelect();
 
-    $(".search").on("click", function() {
-        window.location.replace("location.html")
+    $(".search").on("click", function () {
+        //window.location.replace("location.html")
     })
 });
 
