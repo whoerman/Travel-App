@@ -18,15 +18,6 @@ $(document).ready(function () {
             newOpt.attr("value", item)
             newOpt.text(item);
             $(".stateSelect").append(newOpt);
-
-            var instance = M.FormSelect.getInstance($('.stateSelect'));
-            var _d = instance.getSelectedValues();
-            console.log(_d);
-
-
-
-
-
         });
     }
     stateOptions()
