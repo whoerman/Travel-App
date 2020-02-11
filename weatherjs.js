@@ -109,6 +109,21 @@ function weatherPlanner() {
 
     //adding 5 day planner
     $weatherHourly = $(".weatherHourly")
+    $box1 = $("<div>");
+    $box1.addClass(`box col s12`);
+    $weatherHourly.append($box1);
+    $box2 = $("<div>");
+    $box2.addClass(`box col s12`);
+    $weatherHourly.append($box2);
+    $box3 = $("<div>");
+    $box3.addClass(`box col s12`);
+    $weatherHourly.append($box3);
+    $box4 = $("<div>");
+    $box4.addClass(`box col s12`);
+    $weatherHourly.append($box4);
+    $box5 = $("<div>");
+    $box5.addClass(`box col s12`);
+    $weatherHourly.append($box5);
     $daysText = $("<h5>");
     $daysText.text(`Hourly Forecast:`);
     $dateicon = $("<i>")
@@ -116,19 +131,32 @@ function weatherPlanner() {
     $daysText.prepend($dateicon);
     $weatherHourly.append($daysText);
     let n = 0;
-    for (i=0; i < 39; i++) {
-    $forecastText = $("<h5>");
-    let currentWeather = responseFutureSample.list[i].weather[0].main;
-    let gotTime = responseFutureSample.list[i].dt;
-    var time = moment.unix(gotTime).format("MM-DD=YYYY HH:mm");
-    let futureTemp = responseFutureSample.list[i].main.temp;
-    futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
-    futureTempF = parseInt(futureTemp);
-    $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°`);
-    $ellicon = $("<i>")
-    $ellicon.addClass("fas fa-ellipsis-h");
-    $forecastText.prepend($ellicon);
-    $weatherHourly.append($forecastText);
+    for (i = 0; i < 39; i++) {
+        $forecastText = $("<h5>");
+        let currentWeather = responseFutureSample.list[i].weather[0].main;
+        let gotTime = responseFutureSample.list[i].dt;
+        var time = moment.unix(gotTime).format("ha MM/DD/YYYY");
+        let futureTemp = responseFutureSample.list[i].main.temp;
+        futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
+        futureTempF = parseInt(futureTemp);
+        $forecastText.text(` ${time}    ${currentWeather}   ${futureTempF}°`);
+        $ellicon = $("<i>")
+        $ellicon.addClass("fas fa-genderless");
+        $forecastText.prepend($ellicon);
+        let boxNum = 1;
+        let currentDate = parseInt(moment.unix(responseFutureSample.list[i].dt).format("D"));
+        let dateCheck = parseInt(moment.unix(responseFutureSample.list[1].dt).format("D"));
+        if (currentDate === dateCheck) {
+            $box1.append($forecastText);
+        } else if (currentDate === (dateCheck + 1)) {
+            $box2.append($forecastText)
+        } else if (currentDate === (dateCheck + 2)) {
+            $box3.append($forecastText)
+        } else if (currentDate === (dateCheck + 3)) {
+            $box4.append($forecastText)
+        } else if (currentDate === (dateCheck + 4)) {
+            $box5.append($forecastText)
+        } 
     };
 
     //putting the panner on the page
@@ -207,9 +235,9 @@ function todayWeather() {
     let queryURL = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
 
     $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
+        url: queryURL,
+        method: "GET"
+    })
         .then(function (responseNow) {
             console.log(responseNow);
             currentTempK = responseNow.main.temp;
@@ -225,17 +253,12 @@ function futureWeather() {
     let queryURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
 
     $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
+        url: queryURL,
+        method: "GET"
+    })
         .then(function (responseFuture) {
             console.log(responseFuture);
 
         });
 };
 
-
-// $(".search").on("click", function () {
-//     todayWeather();
-//     futureWeather();
-// });
