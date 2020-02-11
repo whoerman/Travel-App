@@ -74,17 +74,20 @@ $(document).ready(function () {
         todayWeather();
         futureWeather();
     })
+    
 
 
 
 
 
     $(".weatherBtn").on("click", function () {
-        console.log("I work!")
+        $("#events").hide()
+        $("#weather").show()
     })
 
     $(".eventBtn").on("click", function () {
-        console.log("I work!")
+        $("#weather").hide()
+        $("#events").show()
     })
 
 
