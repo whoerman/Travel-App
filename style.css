@@ -16,6 +16,16 @@ body.front {
 
 .weatherBtn {
     margin-right: 10%;
+    cursor: pointer;
+}
+
+.eventBtn {
+    margin-left: 10%;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 1.5em;
 }
 
 h1.locationTitle {
@@ -34,12 +44,8 @@ h1.frontTitle {
     text-align: center;
 }
 
-.eventBtn {
-    margin-left: 10%;
-}
-
 body {
-    background-color: #E8F2E9;
+    background-color:#c1c3c1;
 }
 
 div.front.container {
@@ -59,9 +65,38 @@ div.container {
 }
 
 .weatherHourly {
-    background-color: #F4F3F5;
+    background-color: #f8f7f9;
+    border-radius: .5em;
 }
 
 i {
     min-width: 1.5em;
 }
+
+i.fa-genderless {
+    min-width: 1em;
+}
+
+#events {
+    display: none;
+}
+
+p.appIntro {
+    font-size: 1.5em;
+}
+
+.search {
+    align-content: center;
+}
+
+.box{
+    background-color: lightgray;
+    margin-bottom: 1em;
+    padding:2em;
+}
+
+.botTitle {
+    text-align: center;
+}
+
+

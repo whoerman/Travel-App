@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js">
+<html class="location">
 <!--<![endif]-->
 
 <head>
@@ -24,23 +24,28 @@
         <span class="right weatherBtn">Weather</span>
         <span class="left eventBtn">Events</span>
     </nav>
-    <div class="container">
+    <div id="weather" class="container">
         <h1 class="locationTitle"></h1>
         <div class="row">
             <div class="weatherSummary col s12 l6">
 
             </div>
-            <div class="weatherHourly col s12 l6">
-
+            <div class="col s12 l6">
+                <div class="row weatherHourly">
+                    
+                </div>
             </div>
         </div>
+    </div>
+    <div id="events" class="container">
+
     </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript" src="openweathermapsampleforecast.js"></script>
+    <!-- <script type="text/javascript" src="openweathermapsampleforecast.js"></script> -->
     <!--<script src="weatherjs.js" async defer></script>
     <script src="openCage.js" async defer></script>-->
     <script src="array.js" async defer></script>
