@@ -4,18 +4,99 @@ ul.recent {
     display: none;
 }
 
-body, html {
-    height: 100%;
+body > nav.nav-wrapper {
+    background-color: grey;
+    margin-bottom: 2em;
+}
+
+body.front {
+    height: 100vh;
     display: grid;
   }
 
-body {
-    background-color: grey;
+.weatherBtn {
+    margin-right: 10%;
+    cursor: pointer;
 }
 
-body > div.front.container {
+.eventBtn {
+    margin-left: 10%;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h1.locationTitle {
+    font-size: 2em;
+    margin-top: 1em;
+    text-align: center;
+}
+
+h2.pageDescript {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+h1.frontTitle {
+    font-size: 3em;
+    text-align: center;
+}
+
+body {
+    background-color:#c1c3c1;
+}
+
+div.front.container {
     margin: auto;
     background-color: white;
     padding: 1em;
     border-radius: .5em;
   }
+
+div.container {
+    background-color: white;
+    padding: 1em;
+    border-radius: .75em;
+    margin-bottom: 4em; 
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.weatherHourly {
+    background-color: #f8f7f9;
+    border-radius: .5em;
+}
+
+i {
+    min-width: 1.5em;
+}
+
+i.fa-genderless {
+    min-width: 1em;
+}
+
+#events {
+    display: none;
+}
+
+p.appIntro {
+    font-size: 1.5em;
+}
+
+.search {
+    align-content: center;
+}
+
+.box{
+    background-color: lightgray;
+    margin-bottom: 1em;
+    padding:2em;
+}
+
+.botTitle {
+    text-align: center;
+}
+
+
