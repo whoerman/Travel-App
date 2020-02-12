@@ -261,7 +261,7 @@ $(".home.location").ready(function () {
                             $precipText.append(`Sadly, you have a double whammy! It is also going to snow ${snowPercent}% of the time you are there, so bring boots, too!`)
                         }
                     } else {
-                        $precipText.append(`Bummer! it is going to rain most of the time you are in ${cityname}! It will rain ${rainPercent}% of the time, so bring an umbrella or raincoat, depending on your style. `)
+                        $precipText.append(`Bummer! it is going to rain most of the time you are in ${cityName}! It will rain ${rainPercent}% of the time, so bring an umbrella or raincoat, depending on your style. `)
                     };
                     $rainicon = $("<i>")
                     $rainicon.addClass("fas fa-cloud-showers-heavy");
@@ -285,6 +285,7 @@ $(".home.location").ready(function () {
                     let timeFromNY = currentOffsethours + 5;
                     let timeFromLA = currentOffsethours + 8;
                     let timefromLondon = currentOffsethours;
+
                     $timeZone.text(` ${cityName} is in the ${currentTZone} time zone. That puts it ${timeFromNY} hours different from NYC, ${timeFromLA} hours from LA, and ${timefromLondon} hours from London. Plan accordingly when scheulding activities.`);
                     $timeFicon = $("<i>");
                     $timeFicon.addClass("fas fa-history");
@@ -298,6 +299,7 @@ $(".home.location").ready(function () {
                     let dayLength = (currentSunset - currentSunrise) / 3600
                     let dayLengthHours = parseInt(dayLength);
                     let dayLengthMinutes = parseInt((dayLength - dayLengthHours) * 60);
+
                     $sunTime = $("<h5>");
                     $sunTime.text(` The sun will rise at ${currentSunriseTime} and set at ${currentSunsetTime}, giving you ${dayLengthHours} hours and ${dayLengthMinutes} minutes of daylight. Plenty of time to have fun! `)
                     $sunicon = $("<i>");
@@ -309,75 +311,100 @@ $(".home.location").ready(function () {
                     $(".weather").append($weatherSummary);
 
                     //adding 5 day planner
-                    $weatherHourly = $(".weatherHourly")
-                    $box1 = $("<div>");
-                    $box1.addClass(`box col s12`);
-                    $weatherHourly.append($box1);
-                    $box2 = $("<div>");
-                    $box2.addClass(`box col s12`);
-                    $weatherHourly.append($box2);
-                    $box3 = $("<div>");
-                    $box3.addClass(`box col s12`);
-                    $weatherHourly.append($box3);
-                    $box4 = $("<div>");
-                    $box4.addClass(`box col s12`);
-                    $weatherHourly.append($box4);
-                    $box5 = $("<div>");
-                    $box5.addClass(`box col s12`);
-                    $weatherHourly.append($box5);
-                    $daysText = $("<h5>");
+                    $weatherHourly = $(".weatherHourly");
+                    $daysText = $("<h4>");
                     $daysText.text(`Hourly Forecast:`);
-                    $dateicon = $("<i>")
+                    $dateicon = $("<i>");
                     $dateicon.addClass("fas fa-calendar-day");
                     $daysText.prepend($dateicon);
                     $weatherHourly.append($daysText);
-                    let n = 0;
+
+                    $box1 = $("<div>");
+                    $box1.addClass(`box col s12`);
+                    $weatherHourly.append($box1);
+                    $box1head = $("<h5>");
+                    $box1head.addClass("center-align");
+                    $box1.append($box1head);
+
+                    $box2 = $("<div>");
+                    $box2.addClass(`box col s12`);
+                    $weatherHourly.append($box2);
+                    $box2head = $("<h5>");
+                    $box2head.addClass("center-align");
+                    $box2.append($box2head);
+
+                    $box3 = $("<div>");
+                    $box3.addClass(`box col s12`);
+                    $weatherHourly.append($box3);
+                    $box3head = $("<h5>");
+                    $box3head.addClass("center-align");
+                    $box3.append($box3head);
+
+                    $box4 = $("<div>");
+                    $box4.addClass(`box col s12`);
+                    $weatherHourly.append($box4);
+                    $box4head = $("<h5>");
+                    $box4head.addClass("center-align");
+                    $box4.append($box4head);
+
+                    $box5 = $("<div>");
+                    $box5.addClass(`box col s12`);
+                    $weatherHourly.append($box5);
+                    $box5head = $("<h5>");
+                    $box5head.addClass("center-align");
+                    $box5.append($box5head);
+
                     for (i = 0; i < 39; i++) {
                         $forecastText = $("<h5>");
                         // let currentWeather = responseFuture.list[i].weather[0].main;
                         let gotTime = responseFuture.list[i].dt;
-                        var time = moment.unix(gotTime).format("ha");
+                        let time = moment.unix(gotTime).format("ha");
+                        let time2 = moment.unix(gotTime).format("MM/DD/YY");
                         let futureTemp = responseFuture.list[i].main.temp;
                         futureTemp = (futureTemp - 273.15) * (9 / 5) + 32;
                         futureTempF = parseInt(futureTemp);
-                        $forecastText.text(`\u00A0\ ${futureTempF}° \u00A0\ ${time}`);
-                        // $ellicon = $("<i>")
-                        // $ellicon.addClass("fas fa-genderless");
-                        // $forecastText.prepend($ellicon);
+                        $forecastText.text(`${time} \u00A0\ ${futureTempF}° \u00A0\ `);
                         let currentDate = parseInt(moment.unix(responseFuture.list[i].dt).format("D"));
+                        let currentWeather4Icon = responseFuture.list[i].weather[0].main;
                         let dateCheck = parseInt(moment.unix(responseFuture.list[1].dt).format("D"));
+
                         if (currentDate === dateCheck) {
                             $box1.append($forecastText);
+                            $box1head.text(time2)
                         } else if (currentDate === (dateCheck + 1)) {
                             $box2.append($forecastText)
+                            $box2head.text(time2)
                         } else if (currentDate === (dateCheck + 2)) {
                             $box3.append($forecastText)
+                            $box3head.text(time2)
                         } else if (currentDate === (dateCheck + 3)) {
                             $box4.append($forecastText)
+                            $box4head.text(time2)
                         } else if (currentDate === (dateCheck + 4)) {
                             $box5.append($forecastText)
+                            $box5head.text(time2)
                         }
-                        let currentWeather4Icon = responseFuture.list[i].weather[0].main;
+
                         if (currentWeather4Icon == "Rain") {
                             $threehricon = $("<i>")
                             $threehricon.addClass("fas fa-cloud-rain");
-                            $forecastText.prepend($threehricon);
+                            $forecastText.append($threehricon);
                         } else if (currentWeather4Icon == "Snow") {
                             $threehricon = $("<i>")
                             $threehricon.addClass("far fa-snowflake");
-                            $forecastText.prepend($threehricon);
+                            $forecastText.append($threehricon);
                         } else if (currentWeather4Icon == "Clouds") {
                             $threehricon = $("<i>")
                             $threehricon.addClass("fas fa-cloud");
-                            $forecastText.prepend($threehricon);
+                            $forecastText.append($threehricon);
                         } else if (currentWeather4Icon == "Clear") {
                             $threehricon = $("<i>")
                             $threehricon.addClass("fas fa-sun");
-                            $forecastText.prepend($threehricon);
+                            $forecastText.append($threehricon);
                         } else if (currentWeather4Icon == "Clear") {
                             $threehricon = $("<i>")
                             $threehricon.addClass("fas fa-moon");
-                            $forecastText.prepend($threehricon);
+                            $forecastText.append($threehricon);
                         };
                     };
 
