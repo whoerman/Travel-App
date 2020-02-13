@@ -50,6 +50,9 @@ document.querySelector("#submitRequest").addEventListener("click", function () {
 
         eventDays = [day1, day2, day3, day4, day5];
         console.log("event days array " + eventDays);
+
+        /* this is where you will need to take the day 1 - 5 variables and convert to the format which
+        will go into day 1 - 5 formatted to override the hardcoded values above */
     }
 
 
@@ -83,6 +86,9 @@ function myStopFunction() {
     console.log(Day4Events);
     console.log("Day 5 Events: ");
     console.log(Day5Events);
+
+    /* this is where you insert code to grab the day1 - day5 event json objects.  You have to do it after or at this point
+    or you won't get the correct data to pass to the user interface */
 }
 
 
