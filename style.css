@@ -44,6 +44,11 @@ h1.frontTitle {
     text-align: center;
 }
 
+h4 {
+    font-size: 1.75em;
+    font-weight: 500;
+}
+
 body {
     background-color:#c1c3c1;
 }
@@ -60,8 +65,6 @@ div.container {
     padding: 1em;
     border-radius: .75em;
     margin-bottom: 4em; 
-    text-align: justify;
-    text-justify: inter-word;
 }
 
 .weatherHourly {
@@ -99,4 +102,9 @@ p.appIntro {
     text-align: center;
 }
 
+.modal {
+    height: 10em;
+    width: 30em;
+    background-color: #D8F3EB;
+}
 
