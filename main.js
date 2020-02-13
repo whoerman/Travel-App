@@ -1,5 +1,7 @@
 $(".home.location").ready(function () {
 
+    $('.modal').modal();
+
     let stateOptions = function () {
         states.forEach(function (item) {
             let newOpt = $("<option>");
@@ -50,9 +52,14 @@ $(".home.location").ready(function () {
     };
     getCities()
 
+    $(".modal-close").on("click", function() {
+        $(".modal").hide()
+    })
+
     $(".search").on("click", function () {
         if (($("select.month").val() === null) || ($("select.day").val() === null) || ($("select.year").val() === null) || ($("select.stateSelect").val() === null) || (!$("#input_text").val())) {
-            alert("you dummy");
+            $(".modal").show()
+            return;
         }
 
         let month = $("select.month").val();
@@ -79,7 +86,6 @@ $(".home.location").ready(function () {
     getCoords(recentCities)
 
     function getCoords(arr) {
-        console.log(recentCities[0])
 
         if (!arr) {
             return;
@@ -87,6 +93,7 @@ $(".home.location").ready(function () {
 
         let str = arr[0]
         let split = str.split(",")
+        let userCity = split[0];
         let myCity = split[0].split(" ").join("%20")
         let state = split[1].replace(" ", "")
         let searchID = `${myCity}%2C%20${state}`
@@ -102,7 +109,6 @@ $(".home.location").ready(function () {
 
             latCode = (responseOC.results[0].geometry.lat);
             lngCode = (responseOC.results[0].geometry.lng);
-            console.log(`${latCode} and ${lngCode} `)
 
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCode}&lon=${lngCode}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
 
@@ -116,17 +122,17 @@ $(".home.location").ready(function () {
                     let conditionArray = [];
                     let windArray = [];
                     let fractionC = null;
-                    let clearPercent = null;
+                    let clearPercent = 0;
                     let fractionR = null;
-                    let rainPercent = null;
+                    let rainPercent = 0;
                     let fractionS = null;
-                    let snowPercent = null;
+                    let snowPercent = 0;
                     let coldtemp = null;
                     let hottemp = null;
                     let tempAverage = null;
                     let windMax = null;
                     let maxWindSpeed = 0;
-                    let cityName = responseFuture.city.name;
+                    let cityName = userCity;
                     //building the weather condition array
                     for (a = 1; a < 40; a++) {
                         let currentType = responseFuture.list[a].weather[0].main;
@@ -185,7 +191,6 @@ $(".home.location").ready(function () {
                     $plannerDiv = $("<div>");
                     $header = $(".locationTitle");
                     $header.text("Your Five Day Weather Packing Guide!")
-                    // $plannerDiv.append($header);
                     $headericon = $("<i>")
                     $headericon.addClass("fas fa-suitcase-rolling");
                     $header.prepend($headericon);
@@ -199,11 +204,11 @@ $(".home.location").ready(function () {
                     if (tempAverage < 32) {
                         $tempText.prepend(` The average temp will be below freezing in ${cityName}! Make sure you bring a warm coat with layers plus a hat and gloves. `);
                     } else if (tempAverage < 50) {
-                        $tempText.prepend(` The temperature with be cool but nice in ${cityName}! Definitely bring a jacket or warm sweater and layers. `);
+                        $tempText.prepend(` The temperature will be cool but nice in ${cityName}! Definitely bring a jacket, warm sweater or layers. `);
                     } else if (tempAverage < 70) {
-                        $tempText.prepend(` The temperature with be cool but nice in ${cityName}! You may need a sweather or light jacket when you are wandering. `);
+                        $tempText.prepend(` The temperature will be cool but nice in ${cityName}! You may need a sweater or light jacket when you are wandering. `);
                     } else {
-                        $tempText.prepend(` Awesome! Beach weather! The weather is going to hot in ${cityName}. Bring shorts and t-shirts/light shirts (and maybe a bathing suit!).`);
+                        $tempText.prepend(` Awesome, beach or poolside weather! The weather is going to hot in ${cityName}. Bring shorts and t-shirts/light shirts (and maybe a bathing suit!).`);
                     };
                     $tempicon = $("<i>")
                     $tempicon.addClass("fas fa-temperature-low");
@@ -216,7 +221,7 @@ $(".home.location").ready(function () {
                     if (maxWindSpeed < 10) {
                         $windText.text(` No worries. The wind should be fairly calm. `);
                     } else if (maxWindSpeed < 20) {
-                        $windText.text(` A little breezy at times, might need a layer. Wind should not be unpleasant. `);
+                        $windText.text(` A little breezy at times. Wind should not be unpleasant. `);
                     } else {
                         $windText.text(` It will occasionally get very windy! Plan accordingly. Bring a kite! `);
                     };
@@ -232,12 +237,12 @@ $(".home.location").ready(function () {
                     $clearText.text(` Sun report: It will be clear ${clearPercent} percent of the time,`);
                     let intClearPercent = parseInt(clearPercent);
                     if (intClearPercent == 0) {
-                        $clearText.text(`Sadly, there will be no clear skies the entire time. No need for sunscreen.`)
+                        $clearText.text(` Sadly, there will be no clear skies the entire time. No need for sunscreen.`)
                     } else {
                         if (tempAverage < 32) {
                             $clearText.append(` but really cold, so only bring sunscreen if you are going skiing.`)
                         } else {
-                            $clearText.append(`don't forget to bring sunscreen!.`)
+                            $clearText.append(` don't forget to bring sunscreen!.`)
                         };
                     };
                     $clearicon = $("<i>");
@@ -251,17 +256,17 @@ $(".home.location").ready(function () {
                     $precipText.text(` Precipition: `);
                     if (rainPercent == 0) {
                         if (snowPercent == 0) {
-                            $precipText.append(`Wonderful! there is no rain or snow in the forecast for ${cityName}, so enjoy and get outside! `)
+                            $precipText.append(` Wonderful! There is no rain or snow in the forecast for ${cityName}, so enjoy and get outside! `)
                         } else {
-                            $precipText.append(`There is snow in the forecast. It will snow ${snowPercent}% of the time you are in ${cityName}, so bring your winter gear and make a snowman!`)
+                            $precipText.append(` There is snow in the forecast. It will snow ${snowPercent}% of the time you are in ${cityName}, so bring your winter gear and make a snowman!`)
                         }
                     } else if (rainPercent < 50) {
-                        $precipText.append(`Unfortunately, it is going to rain ${rainPercent}% of the time you are in ${cityName}. Depending on your style, you will need a raincoat or umbrella. `)
+                        $precipText.append(` Unfortunately, it is going to rain ${rainPercent}% of the time you are in ${cityName}. Depending on your style, you will need a raincoat or umbrella. `)
                         if (snowPercent > 0) {
-                            $precipText.append(`Sadly, you have a double whammy! It is also going to snow ${snowPercent}% of the time you are there, so bring boots, too!`)
+                            $precipText.append(` Sadly, you have a double whammy! It is also going to snow ${snowPercent}% of the time you are there, so bring boots, too!`)
                         }
                     } else {
-                        $precipText.append(`Bummer! it is going to rain most of the time you are in ${cityName}! It will rain ${rainPercent}% of the time, so bring an umbrella or raincoat, depending on your style. `)
+                        $precipText.append(` Bummer! it is going to rain most of the time you are in ${cityName}! It will rain ${rainPercent}% of the time, so bring an umbrella or raincoat, depending on your style. `)
                     };
                     $rainicon = $("<i>")
                     $rainicon.addClass("fas fa-cloud-showers-heavy");
@@ -270,12 +275,9 @@ $(".home.location").ready(function () {
 
                     ///addding other facts
                     $factsDiv = $("<div>")
-                    $headerF = $("<h5>");
+                    $headerF = $("<h4>");
                     $headerF.addClass("header");
                     $headerF.text(` Here are other helpful facts to know for your trip to ${cityName}: `);
-                    $headerFicon = $("<i>");
-                    $headerFicon.addClass("fas fa-list-ul");
-                    $headerF.prepend($headerFicon);
                     $factsDiv.append($headerF);
                     //adding the time zone discussion
                     $timeZone = $("<h5>");
@@ -293,21 +295,23 @@ $(".home.location").ready(function () {
                     $factsDiv.append($timeZone);
                     //adding sunset and sunrise and daylight
                     let currentSunrise = responseOC.results[0].annotations.sun.rise.apparent;
-                    let currentSunriseTime = moment.unix(currentSunrise).format("hh:mm A");
+                    let currentSunriseTime = moment.unix(currentSunrise).format("h:mm A");
+                    let currentSunriseHourCalc = moment.unix(currentSunrise).format("HH")
+                    let currentSunriseMinCalc = moment.unix(currentSunrise).format("mm")
                     let currentSunset = responseOC.results[0].annotations.sun.set.apparent;
-                    let currentSunsetTime = moment.unix(currentSunset).format("hh:mm A");
-                    let dayLength = (currentSunset - currentSunrise) / 3600
-                    let dayLengthHours = parseInt(dayLength);
-                    let dayLengthMinutes = parseInt((dayLength - dayLengthHours) * 60);
+                    let currentSunsetTime = moment.unix(currentSunset).format("h:mm A");
+                    let currentSunsetHourCalc = moment.unix(currentSunset).format("HH")
+                    let currentSunsetMinCalc = moment.unix(currentSunset).format("mm")
+                    let formatHourTime = currentSunsetHourCalc - currentSunriseHourCalc
+                    let formatMinTime = currentSunsetMinCalc - currentSunriseMinCalc
 
                     $sunTime = $("<h5>");
-                    $sunTime.text(` The sun will rise at ${currentSunriseTime} and set at ${currentSunsetTime}, giving you ${dayLengthHours} hours and ${dayLengthMinutes} minutes of daylight. Plenty of time to have fun! `)
+                    $sunTime.text(` The sun will rise at ${currentSunriseTime} and set at ${currentSunsetTime}, giving you ${formatHourTime} hours and ${formatMinTime} minutes of daylight. Plenty of time to have fun! `)
                     $sunicon = $("<i>");
                     $sunicon.addClass("fas fa-sun");
                     $sunTime.prepend($sunicon);
                     $factsDiv.append($sunTime);
                     $weatherSummary.append($factsDiv);
-                    console.log("weatherSummary done 2");
                     $(".weather").append($weatherSummary);
 
                     //adding 5 day planner
@@ -356,7 +360,6 @@ $(".home.location").ready(function () {
 
                     for (i = 0; i < 39; i++) {
                         $forecastText = $("<h5>");
-                        // let currentWeather = responseFuture.list[i].weather[0].main;
                         let gotTime = responseFuture.list[i].dt;
                         let time = moment.unix(gotTime).format("ha");
                         let time2 = moment.unix(gotTime).format("MM/DD/YY");
