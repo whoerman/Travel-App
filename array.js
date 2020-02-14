@@ -1,4 +1,4 @@
-let states = ["AK",
+let statesOpt = ["AK",
     "AL",
     "AR",
     "AZ",
@@ -53,7 +53,7 @@ let states = ["AK",
     "WV",
     "WY"]
 
-let month = [
+let monthOpt = [
     "01",
     "02",
     "03",
@@ -69,7 +69,7 @@ let month = [
 ]
 
 
-let day = [
+let dayOpt = [
     "01",
     "02",
     "03",
@@ -103,7 +103,7 @@ let day = [
     "31"
 ]
 
-let year = [
+let yearOpt = [
     "2020",
     "2021"
 ]
