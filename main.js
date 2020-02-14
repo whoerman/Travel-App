@@ -1,9 +1,9 @@
-$(".home.location").ready(function () {
+$(".home").ready(function () {
 
     $('.modal').modal();
 
     let stateOptions = function () {
-        states.forEach(function (item) {
+        statesOpt.forEach(function (item) {
             let newOpt = $("<option>");
             newOpt.attr("value", item)
             newOpt.text(item);
@@ -13,7 +13,7 @@ $(".home.location").ready(function () {
     stateOptions()
 
     let monthOptions = function () {
-        month.forEach(function (item) {
+        monthOpt.forEach(function (item) {
             let newOpt = $("<option>");
             newOpt.attr("value", item)
             newOpt.text(item);
@@ -22,7 +22,7 @@ $(".home.location").ready(function () {
     }
     monthOptions()
     let dayOptions = function () {
-        day.forEach(function (item) {
+        dayOpt.forEach(function (item) {
             let newOpt = $("<option>");
             newOpt.attr("value", item)
             newOpt.text(item);
@@ -31,7 +31,7 @@ $(".home.location").ready(function () {
     }
     dayOptions()
     let yearOptions = function () {
-        year.forEach(function (item) {
+        yearOpt.forEach(function (item) {
             let newOpt = $("<option>");
             newOpt.attr("value", item)
             newOpt.text(item);
@@ -43,6 +43,7 @@ $(".home.location").ready(function () {
     $('select').formSelect();
 
     recentCities = [];
+    searchDate = [];
 
     let getCities = function () {
         recentCities = JSON.parse(localStorage.getItem("cityArray"));
@@ -52,7 +53,15 @@ $(".home.location").ready(function () {
     };
     getCities()
 
-    $(".modal-close").on("click", function() {
+    let getDate = function () {
+        searchDate = JSON.parse(localStorage.getItem("searchDate"));
+        if (!searchDate) {
+            localStorage.setItem("searchDate", JSON.stringify(searchDate));
+        }
+    };
+    getDate()
+
+    $(".modal-close").on("click", function () {
         $(".modal").hide()
     })
 
@@ -65,6 +74,12 @@ $(".home.location").ready(function () {
         let month = $("select.month").val();
         let day = $("select.day").val();
         let year = $("select.year").val();
+        if (!searchDate) {
+            searchDate = [(`${year}-${month}-${day}`)]
+        } else if (searchDate.length >= 0) {
+            searchDate.unshift(`${year}-${month}-${day}`)
+        }
+        localStorage.setItem("searchDate", JSON.stringify(searchDate))
         let state = $("select.stateSelect").val();
         let city = $("#input_text").val().trim()
         if (!recentCities) {
@@ -75,15 +90,21 @@ $(".home.location").ready(function () {
         localStorage.setItem("cityArray", JSON.stringify(recentCities))
         $("#input_text").val(" ")
 
-
         changePage()
     })
+})
+function changePage() {
+    location.replace("location.html")
+}
 
-    function changePage() {
-        location.replace("location.html")
+$(".location").ready(function () {
+    
+    if (recentCities === []) {
+        return;
     }
+    getCoords(recentCities);
 
-    getCoords(recentCities)
+
 
     function getCoords(arr) {
 
@@ -107,8 +128,8 @@ $(".home.location").ready(function () {
 
         }).then(function (responseOC) {
 
-            latCode = (responseOC.results[0].geometry.lat);
-            lngCode = (responseOC.results[0].geometry.lng);
+            let latCode = (responseOC.results[0].geometry.lat);
+            let lngCode = (responseOC.results[0].geometry.lng);
 
             let queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCode}&lon=${lngCode}&APPID=56657235d578c7d8b7f0b5ce07c9c887`
 
@@ -410,6 +431,134 @@ $(".home.location").ready(function () {
                             $forecastText.append($threehricon);
                         };
                     };
+
+                    let date = searchDate[0];
+                    let day0 = moment(date).format("YYYY-MM-DD");
+                    let day1 = moment(day0).add(1, "days").format("YYYY-MM-DD");
+                    let day2 = moment(day1).add(1, "days").format("YYYY-MM-DD");
+                    let day3 = moment(day2).add(1, "days").format("YYYY-MM-DD");
+                    let day4 = moment(day3).add(1, "days").format("YYYY-MM-DD");
+                    console.log(day1)
+
+
+                    const tick1URL = `https://app.ticketmaster.com/discovery/v2/events?apikey=azaUxsQPC2NvNoM7ZPpJOHJ0xw2N0iqd&radius=10&unit=miles&locale=*&size=5&countryCode=US&localStartDateTime=${day0}T00:00:00,${day0}T23:59:59&geoPoint=${latCode},${lngCode}`
+
+                    $.ajax({
+                        url: tick1URL,
+                        method: "GET"
+
+                    }).then(function (response) {
+                        let newDiv = $("<div>");
+                        newDiv.addClass(`event col s12 m5`);
+                        $(".eventsDiv").append(newDiv);
+                        let dateEl = $("<h5>");
+                        let formatedDate = moment(response._embedded.events[0].dates.start.localDate).format("M/DD/YYYY")
+                        dateEl.text(formatedDate);
+                        newDiv.append(dateEl);
+                        let titleEL = $("<h4>");
+                        titleEL.text(response._embedded.events[0].name);
+                        newDiv.append(titleEL);
+                        let imgSrc = response._embedded.events[0].images[0].url;
+                        newDiv.append(`<img class="eventImage" src=${imgSrc} />`);
+                        let link = response._embedded.events[0].url;
+                        newDiv.append(`<a href="${link}">Buy Tickets!</>`);
+
+                        const tick2URL = `https://app.ticketmaster.com/discovery/v2/events?apikey=azaUxsQPC2NvNoM7ZPpJOHJ0xw2N0iqd&radius=10&unit=miles&locale=*&size=5&countryCode=US&localStartDateTime=${day1}T00:00:00,${day1}T23:59:59&geoPoint=${latCode},${lngCode}`
+
+                        $.ajax({
+                            url: tick2URL,
+                            method: "GET"
+
+                        }).then(function (response) {
+                            let newDiv = $("<div>");
+                            newDiv.addClass(`event col s12 m5`);
+                            $(".eventsDiv").append(newDiv);
+                            let dateEl = $("<h5>");
+                            let formatedDate = moment(response._embedded.events[1].dates.start.localDate).format("M/DD/YYYY")
+                            dateEl.text(formatedDate);
+                            newDiv.append(dateEl);
+                            let titleEL = $("<h4>");
+                            titleEL.text(response._embedded.events[1].name);
+                            newDiv.append(titleEL);
+                            let imgSrc = response._embedded.events[1].images[0].url;
+                            newDiv.append(`<img class="eventImage" src=${imgSrc} />`);
+                            let link = response._embedded.events[1].url;
+                            newDiv.append(`<a href="${link}">Buy Tickets!</>`);
+
+                            const tick3URL = `https://app.ticketmaster.com/discovery/v2/events?apikey=azaUxsQPC2NvNoM7ZPpJOHJ0xw2N0iqd&radius=10&unit=miles&locale=*&size=5&countryCode=US&localStartDateTime=${day2}T00:00:00,${day2}T23:59:59&geoPoint=${latCode},${lngCode}`
+
+                            $.ajax({
+                                url: tick3URL,
+                                method: "GET"
+
+                            }).then(function (response) {
+                                let newDiv = $("<div>");
+                                newDiv.addClass(`event col s12 m5`);
+                                $(".eventsDiv").append(newDiv);
+                                let dateEl = $("<h5>");
+                                let formatedDate = moment(response._embedded.events[2].dates.start.localDate).format("M/DD/YYYY")
+                                dateEl.text(formatedDate);
+                                newDiv.append(dateEl);
+                                let titleEL = $("<h4>");
+                                titleEL.text(response._embedded.events[2].name);
+                                newDiv.append(titleEL);
+                                let imgSrc = response._embedded.events[2].images[0].url;
+                                newDiv.append(`<img class="eventImage" src=${imgSrc} />`);
+                                let link = response._embedded.events[2].url;
+                                newDiv.append(`<a href="${link}">Buy Tickets!</>`);
+
+                                const tick4URL = `https://app.ticketmaster.com/discovery/v2/events?apikey=azaUxsQPC2NvNoM7ZPpJOHJ0xw2N0iqd&radius=10&unit=miles&locale=*&size=5&countryCode=US&localStartDateTime=${day3}T00:00:00,${day3}T23:59:59&geoPoint=${latCode},${lngCode}`
+
+                                $.ajax({
+                                    url: tick4URL,
+                                    method: "GET"
+
+                                }).then(function (response) {
+                                    let newDiv = $("<div>");
+                                    newDiv.addClass(`event col s12 m5`);
+                                    $(".eventsDiv").append(newDiv);
+                                    let dateEl = $("<h5>");
+                                    let formatedDate = moment(response._embedded.events[2].dates.start.localDate).format("M/DD/YYYY")
+                                    dateEl.text(formatedDate);
+                                    newDiv.append(dateEl);
+                                    let titleEL = $("<h4>");
+                                    titleEL.text(response._embedded.events[2].name);
+                                    newDiv.append(titleEL);
+                                    let imgSrc = response._embedded.events[2].images[0].url;
+                                    newDiv.append(`<img class="eventImage" src=${imgSrc} />`);
+                                    let link = response._embedded.events[2].url;
+                                    newDiv.append(`<a href="${link}">Buy Tickets!</>`);
+
+                                    const tick5URL = `https://app.ticketmaster.com/discovery/v2/events?apikey=azaUxsQPC2NvNoM7ZPpJOHJ0xw2N0iqd&radius=10&unit=miles&locale=*&size=5&countryCode=US&localStartDateTime=${day4}T00:00:00,${day4}T23:59:59&geoPoint=${latCode},${lngCode}`
+
+                                    $.ajax({
+                                        url: tick5URL,
+                                        method: "GET"
+
+                                    }).then(function (response) {
+                                        let newDiv = $("<div>");
+                                        newDiv.addClass(`event col s12 m5`);
+                                        $(".eventsDiv").append(newDiv);
+                                        let dateEl = $("<h5>");
+                                        let formatedDate = moment(response._embedded.events[2].dates.start.localDate).format("M/DD/YYYY")
+                                        dateEl.text(formatedDate);
+                                        newDiv.append(dateEl);
+                                        let titleEL = $("<h4>");
+                                        titleEL.text(response._embedded.events[2].name);
+                                        newDiv.append(titleEL);
+                                        let imgSrc = response._embedded.events[2].images[0].url;
+                                        newDiv.append(`<img class="eventImage" src=${imgSrc} />`);
+                                        let link = response._embedded.events[2].url;
+                                        newDiv.append(`<a href="${link}">Buy Tickets!</>`);
+
+                                    });
+
+                                });
+                            });
+
+                        });
+
+                    });
 
                 });
         });
